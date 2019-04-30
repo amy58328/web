@@ -1,6 +1,7 @@
 firstx = 100,firsty = 100;
 lastx = 200 , lasty = 200;
 var canvas 
+var mouse_down = 0;
 
 function setting()
 {
@@ -10,62 +11,33 @@ function setting()
 	ctx = ctx1
 }
 
-function drawLine()
-{
-
-	ctx.beginPath();
-	ctx.strokeStyle = "#ff0000";
-	ctx.linewidth = 0.5;
-	ctx.lineCap = 'square' ;
-
-	ctx.moveTo(250,0);
-	ctx.lineTo(250,500);
-
-	ctx.moveTo(0,250);
-	ctx.lineTo(500,250);
-
-
-	ctx.stroke();
+function getMousePos(canvas, event) {
+  var rect = canvas.getBoundingClientRect();
+  return {
+    x: event.clientX - rect.left,
+    y: event.clientY - rect.top
+  };
 }
 	
-
-function showCoords(event) {
-  var x = event.clientX;
-  var y = event.clientY;
-  var coords = "X coords: " + x + ", Y coords: " + y;
-  document.getElementById("demo").innerHTML = coords;
- 
-
+function mouseMove(event) {
+	if(mouse_down == 1)
+	{
+		var mousePos = getMousePos(canvas, event);
+		  ctx.lineTo(mousePos.x, mousePos.y);
+		  ctx.stroke();
+		  var coords = "X coords: " + mousePos.x + ", Y coords: " +mousePos.y;
+		  document.getElementById("demo").innerHTML = coords;
+	}
 }
-
-
-
+		  
 function down(event)
 {
-	firstx = event.clientX;
-	firsty = event.clientY;
-	var coords = "X coords: " + firstx + ", Y coords: " + firsty;
-  document.getElementById("demo2").innerHTML = coords;	
+	mouse_down = 1;
+	var mousePos = getMousePos(canvas, event);
+	ctx.moveTo(mousePos.x,mousePos.y);
 }
 
 function up(event)
 {
-	lastx = event.clientX;
-	lasty = event.clientY;
-	var coords = "X coords: " + lastx + ", Y coords: " + lasty;
-  	document.getElementById("demo3").innerHTML = coords;	
-
-  ctx.beginPath();
-	ctx.strokeStyle = "rgb(233,230,30)";
-	ctx.linewidth = 0.5;
-	ctx.lineCap = 'square' ;
-
-	ctx.moveTo(firstx,firsty);
-	ctx.lineTo(lastx,lasty);
-
-	ctx.moveTo(0,250);
-	ctx.lineTo(500,250);
-
-
-	ctx.stroke();
+	mouse_down = 0;
 }
