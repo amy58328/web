@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Wake up！大藝術家</title>
+    <style type="text/css">
+
+    
+
+    .Sidebar
+    {
+      width:100%;
+      float:left;
+      height:100%;
+      background-color:#ffffff;
+    }
+
+    .header
+    {
+      width:100%;
+        height:0px;
+      float:left;
+      padding:2px;
+    } 
+    </style>
+
+    <script type="text/javascript">
+      var coordinate = new Array();
+    var x_=0,y_=0;
+      function setting()
+    {
+      var canvas1 = document.getElementById("cvs");
+      var ctx1 = canvas1.getContext("2d");
+      cvs = canvas1;
+      ctx = ctx1;
+
+      for(var i=0 ; i<=820 ; i++)
+      {
+        coordinate[i] = new Array();
+        for(var j=0; j <=600 ; j++)
+        {
+          coordinate[i][j] = new Array();
+          coordinate[i][j][0] = '#ffffff';
+        }
+      }
+    }
+
+
+
+    function getMousePos(cvs, event) {
+      var rect = cvs.getBoundingClientRect();
+      return {
+        x: event.clientX - rect.left,
+        y: event.clientY - rect.top
+      };
+    }
+      
+    function mouseMove(event) {
+      if(mouse_down == 1)
+      {
+        var mousePos = getMousePos(cvs, event);
+          ctx.lineTo(mousePos.x, mousePos.y);
+          ctx.stroke();
+//           var cal = ((mousePos.y - y_)/ (mousePos.x - x_));
+//           var i=0;
+
+//           // while((x_ + i) == mousePos.x)
+//           // {
+//           //   i = i+ 0.1;
+//           ctx.beginPath();
+             ctx.arc(mousePos.x,mousePos.y,5,0,2*Math.PI);
+// ctx.stroke();
+          // }
+         
+          
+
+      }
+    }
+          
+    function down(event)
+    {
+      mouse_down = 1;
+      var mousePos = getMousePos(cvs, event);
+      ctx.moveTo(mousePos.x,mousePos.y);
+      x_ = mousePos.x;
+      y_ = mousePos.y;                                                                                                                                                                                                                                                                                                                                                         
+    }
+
+    function up(event)
+    {
+      ctx.beginPath();
+      mouse_down = 0;
+      //alert(previous_and_next.length);
+    }
+    </script>
+  </head>
+
+  <body onload="setting()" style="background-color: #000000">
+    <div class="Sidebar">
+        <canvas width="820px" height="600px" id="cvs" onmouseup="up(event)" onmousedown="down(event)" onmousemove="mouseMove(event)" tabindex="0"></canvas>
+    </div>
+
+
+  </body>
+
+</html>
